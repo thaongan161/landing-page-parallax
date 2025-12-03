@@ -1,66 +1,65 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 const ContactForm: React.FC = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
-    alert("Message sent!");
+    console.log("Form data:", form);
+    setSent(true);
+    setTimeout(() => setSent(false), 2500);
   };
 
   return (
-    <section className="min-h-screen bg-gray-100 px-6 py-20">
-      <div className="text-center mb-10">
-        <h1 className="text-5xl text-black font-bold mb-4">Contact Form</h1>
-      </div>
+    <section className="min-h-screen bg-white flex items-center justify-center px-6 py-20">
+      <div className="w-full max-w-3xl">
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-bold">Let's Talk</h2>
+          <p className="text-gray-600 mt-2">Fill in the form and we'll get back to you shortly.</p>
+        </div>
 
-      <div className="flex items-center justify-center">
-        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center">Send a Message</h2>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="bg-white border border-gray-100 rounded-2xl shadow-md p-8"
+        >
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
             <input
               name="name"
-              type="text"
-              placeholder="Your Name"
+              placeholder="Your name"
+              className="p-3 border rounded-lg"
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg"
+              required
             />
-
             <input
               name="email"
               type="email"
-              placeholder="Your Email"
+              placeholder="Your e-mail"
+              className="p-3 border rounded-lg"
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg"
+              required
             />
-
             <textarea
               name="message"
-              placeholder="Your Message"
+              placeholder="Your message"
+              className="p-3 border rounded-lg h-36"
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg h-32"
+              required
             />
-
-            <button
-              type="submit"
-              className="w-full p-3 bg-black text-white rounded-lg hover:bg-gray-700 transition"
-            >
-              Send
+            <button className="mt-2 bg-black text-white rounded-lg py-3 font-medium hover:bg-gray-800 transition">
+              Send Message
             </button>
+            {sent && <div className="text-green-600 mt-2">Message sent — thank you!</div>}
           </form>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

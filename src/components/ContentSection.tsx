@@ -1,35 +1,51 @@
-import React from "react";
+import Image, { StaticImageData } from 'next/image';
+import { useScroll, useTransform, motion } from 'framer-motion';
+import { useRef } from 'react';
 
-interface ContentProps {
+interface ContentSectionProps {
+  bgUrl: string;
   title: string;
-  text: string;
-  image: string;
-  parallax?: boolean;
+  description: string;
 }
 
-const ContentSection: React.FC<ContentProps> = ({
-  title,
-  text,
-  image,
-  parallax = false,
-}) => {
+export default function ContentSection({ bgUrl, title, description }: ContentSectionProps) {
+  const container = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start end', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
+
   return (
-    <section
-      className={`relative h-screen w-full flex items-center justify-center text-center bg-cover bg-center ${
-        parallax ? "bg-fixed" : ""
-      }`}
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
+    <div
+      ref={container}
+      className="relative flex items-center justify-center h-screen overflow-hidden"
+      style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
     >
-      <div className="absolute inset-0 bg-black/40"></div>
-
-      <div className="relative z-10 max-w-3xl px-6 text-white">
-        <h2 className="text-4xl md:text-5xl font-semibold mb-4">{title}</h2>
-        <p className="text-lg md:text-xl leading-relaxed">{text}</p>
+      <div className="relative z-10 p-20 mix-blend-difference text-white w-full h-full flex flex-col justify-between">
+        <p className="w-[50vw] text-[2vw] self-end uppercase mix-blend-difference">
+          {description}
+        </p>
+        <p className="text-[5vw] uppercase mix-blend-difference">{title}</p>
       </div>
-    </section>
+      <div className="fixed top-[-10vh] left-0 h-[120vh] w-full">
+        
+        <motion.div
+                style={{ y }}
+                className="absolute inset-0 bg-cover bg-center"
+                dangerouslySetInnerHTML={{ __html: "" }}
+              />
+              {/* Instead of dangerouslySetInnerHTML we set style inline to use bg image */}
+              <motion.div
+                style={{ y } as any}
+                className="absolute inset-0 bg-cover bg-center"
+                aria-hidden
+                // @ts-ignore
+                style={{ backgroundImage: `url(${bgUrl})`, y }}
+              />
+      </div>
+    </div>
   );
-};
-
-export default ContentSection;
+}

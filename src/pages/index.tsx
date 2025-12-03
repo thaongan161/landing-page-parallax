@@ -1,35 +1,42 @@
-import HeroTitle from "../components/HeroSection";
-import ContentSection from "../components/ContentSection";
-import ContactForm from "../components/ContactForm";
+import React from "react";
+import HeroSection from "@/components/HeroSection";
+import ContactForm from "@/components/ContactForm";
+import ContentSection from "@/components/ContentSection";
 
-export default function Home() {
+export default function App() {
+  const heroBg = "/2.jpg";
+  const sharedBg = "/1.jpg";
+
   return (
-    <>
-      {/* Section 1 – Title */}
-      <HeroTitle
-        title="Title Parallax Landing Page"
-        subtitle="Modern • Smooth • Professional"
-        bgImage="hero.jpg"
+    <div className="antialiased text-gray-800 bg-white">
+      <HeroSection
+        title="Delight in Design"
+        subtitle="Elegant, minimal, and meticulously crafted"
+        bgUrl={heroBg}
       />
 
-      {/* Section 2 – Content 1 */}
-      <ContentSection
-        title="Content 1"
-        text="Your content here."
-        image="content1.jpg"
-        parallax
-      />
 
-      {/* Section 3 – Content 2 */}
-      <ContentSection
-        title="Content 2"
-        text="Your content here."
-        image="content2.jpg"
-        parallax
-      />
+<ContentSection
+  bgUrl={sharedBg}
+  title="Background Parallax"
+  description="Beauty and quality need the right time to be conceived and realised even in a world that is in too much of a hurry."
+/>
 
-      {/* Section 4 – Contact */}
+
+
+
+      {/* PAGE 2 & 3 — Shared Background */}
+      {/* <SharedBackground
+        bgUrl={sharedBg}
+        page2Heading="INSPIRATION"
+        slides={[
+          { title: "Concept One", text: "Details about concept one go here." },
+          { title: "Concept Two", text: "More information about concept two." },
+          { title: "Concept Three", text: "The final concept explanation." },
+        ]}
+      /> */}
+
       <ContactForm />
-    </>
+    </div>
   );
 }
