@@ -14,8 +14,7 @@ const HeroTitle: React.FC<Props> = ({ title, subtitle, bgUrl }) => {
     offset: ["start start", "end start"]
   });
 
-  // move background slightly on scroll
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden">
@@ -24,18 +23,12 @@ const HeroTitle: React.FC<Props> = ({ title, subtitle, bgUrl }) => {
         className="absolute inset-0 bg-cover bg-center"
         dangerouslySetInnerHTML={{ __html: "" }}
       />
-      {/* Instead of dangerouslySetInnerHTML we set style inline to use bg image */}
       <motion.div
-        style={{ y } as any}
         className="absolute inset-0 bg-cover bg-center"
-        // tailwind class for override - we use inline style to ensure url applied
-        // eslint-disable-next-line react/no-unknown-property
-        aria-hidden
-        // inline style for background-image
-        // Using style object so TS is happy
-        // eslint-disable-next-line react/style-prop-object
-        // @ts-ignore
-        style={{ backgroundImage: `url(${bgUrl})`, y }}
+        style={{
+          y,
+          backgroundImage: `url(${bgUrl})`,
+        }}
       />
       <div className="absolute inset-0 bg-black/30"></div>
 

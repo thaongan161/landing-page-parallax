@@ -2,10 +2,12 @@ import React from "react";
 import HeroSection from "@/components/HeroSection";
 import ContactForm from "@/components/ContactForm";
 import ContentSection from "@/components/ContentSection";
+import HorizontalWrapper from "@/components/HorizontalWrapper";
 
 export default function App() {
   const heroBg = "/1.jpg";
-  const themeBg = "/2.jpg";
+  const test = "/2.jpg";
+  const themeBg = "/theme.jpg";
 
   return (
     <div className="antialiased text-gray-800 bg-white">
@@ -15,26 +17,16 @@ export default function App() {
         bgUrl={heroBg}
       />
 
-
-      <ContentSection
-        bgUrl={themeBg}
-        title="Background Parallax"
-        description="Beauty and quality need the right time to be conceived and realised even in a world that is in too much of a hurry."
-      />
-
-
-
-
-      {/* PAGE 2 & 3 — Shared Background */}
-      {/* <SharedBackground
-        bgUrl={sharedBg}
-        page2Heading="INSPIRATION"
-        slides={[
-          { title: "Concept One", text: "Details about concept one go here." },
-          { title: "Concept Two", text: "More information about concept two." },
-          { title: "Concept Three", text: "The final concept explanation." },
-        ]}
-      /> */}
+      <HorizontalWrapper>
+        <ContentSection
+          bgUrl={themeBg}
+          title="Content1"
+        />
+          <ContentSection
+          bgUrl={test}
+          title="Content2"
+        />
+      </HorizontalWrapper>
 
       <ContactForm />
     </div>
