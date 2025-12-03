@@ -4,8 +4,8 @@ import ContactForm from "@/components/ContactForm";
 import ContentSection from "@/components/ContentSection";
 
 export default function App() {
-  const heroBg = "/2.jpg";
-  const sharedBg = "/1.jpg";
+  const heroBg = "/1.jpg";
+  const themeBg = "/2.jpg";
 
   return (
     <div className="antialiased text-gray-800 bg-white">
@@ -16,11 +16,11 @@ export default function App() {
       />
 
 
-<ContentSection
-  bgUrl={sharedBg}
-  title="Background Parallax"
-  description="Beauty and quality need the right time to be conceived and realised even in a world that is in too much of a hurry."
-/>
+      <ContentSection
+        bgUrl={themeBg}
+        title="Background Parallax"
+        description="Beauty and quality need the right time to be conceived and realised even in a world that is in too much of a hurry."
+      />
 
 
 
