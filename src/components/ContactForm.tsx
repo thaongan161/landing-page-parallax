@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -5,7 +7,9 @@ const ContactForm: React.FC = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -21,7 +25,9 @@ const ContactForm: React.FC = () => {
       <div className="w-full max-w-3xl">
         <div className="text-center mb-10">
           <h2 className="text-4xl font-bold">Let's Talk</h2>
-          <p className="text-gray-600 mt-2">Fill in the form and we'll get back to you shortly.</p>
+          <p className="text-gray-600 mt-2">
+            Fill in the form and we'll get back to you shortly.
+          </p>
         </div>
 
         <motion.div
@@ -57,7 +63,12 @@ const ContactForm: React.FC = () => {
             <button className="mt-2 bg-black text-white rounded-lg py-3 font-medium hover:bg-gray-800 transition">
               Send Message
             </button>
-            {sent && <div className="text-green-600 mt-2">Message sent — thank you!</div>}
+
+            {sent && (
+              <div className="text-green-600 mt-2">
+                Message sent — thank you!
+              </div>
+            )}
           </form>
         </motion.div>
       </div>

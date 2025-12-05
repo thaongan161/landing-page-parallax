@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export default function HorizontalWrapper({
   children,
@@ -15,26 +16,25 @@ export default function HorizontalWrapper({
     offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 28,
-    mass: 0.4,
-  });
+  const smooth = useSmoothScroll(scrollYProgress);
 
-  const x = useTransform(smoothProgress, [0, 1], ["0%", `-${(children.length - 1) * 100}%`]);
+  const totalWidth = (children.length - 1) * 100;
+  const x = useTransform(
+    smooth,
+    [0, 0.18, 0.82, 1],
+    ["0%", "0%", `-${totalWidth}%`, `-${totalWidth}%`]
+  );
 
   return (
     <section ref={containerRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div
-          style={{ x, willChange: "transform" }}
-          className="flex h-full"
+          style={{ x }}
+          transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.4 }}
+          className="flex h-full will-change-transform"
         >
-          {children.map((child, i) => (
-            <div
-              key={i}
-              className="w-screen h-screen flex-shrink-0"
-            >
+          {children.map((child, idx) => (
+            <div key={idx} className="w-screen h-screen flex-shrink-0">
               {child}
             </div>
           ))}

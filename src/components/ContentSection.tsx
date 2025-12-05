@@ -2,45 +2,34 @@
 
 import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
-
-interface ContentSectionProps {
-  bgUrl: string;
-  title: string;
-}
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export default function ContentSection({
-  bgUrl,
-  title,
-}: ContentSectionProps) {
-  const container = useRef<HTMLDivElement>(null);
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
-    target: container,
+    target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const smooth = useSmoothScroll(scrollYProgress);
+
+  const y = useTransform(smooth, [0, 0.1, 0.9, 1], ["-6%", "-10%", "10%", "6%"]);
 
   return (
-    <section
-      ref={container}
-      className="relative w-screen h-screen overflow-hidden"
-    >
-      <div className="relative z-10 p-[5vw] mix-blend-difference text-white flex flex-col justify-between h-full w-full">
-        <p className="text-[5vw] uppercase mix-blend-difference">{title}</p>
+    <section ref={containerRef} className="relative w-screen h-screen overflow-hidden">
+      <div className="relative z-10 p-[5vw] w-full h-full flex flex-col">
+        {children}
       </div>
 
       <motion.div
         style={{ y }}
-        className="absolute inset-0 bg-cover bg-center"
-      />
-
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          y,
-          backgroundImage: `url(${bgUrl})`,
-        }}
+        transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.4 }}
+        className="absolute inset-0 z-0 will-change-transform"
       />
     </section>
   );
